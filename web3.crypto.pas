@@ -34,24 +34,20 @@ uses
   System.TypInfo,
   // CryptoLib4Pascal
   ClpBigInteger,
-  ClpBigIntegers,
+  ClpBigIntegerUtilities,
   ClpCryptoLibTypes,
   ClpCustomNamedCurves,
-  ClpECDomainParameters,
+  ClpECParameters,
   ClpECDsaSigner,
-  ClpECKeyGenerationParameters,
-  ClpECKeyPairGenerator,
-  ClpECPrivateKeyParameters,
+  ClpKeyGenerationParameters,
+  ClpECGenerators,
   ClpIAsymmetricCipherKeyPair,
-  ClpIECC,
-  ClpIECDomainParameters,
-  ClpIECKeyGenerationParameters,
-  ClpIECKeyPairGenerator,
-  ClpIECPrivateKeyParameters,
-  ClpIECPublicKeyParameters,
+  ClpIECCommon,
+  ClpIECParameters,
+  ClpIKeyGenerationParameters,
+  ClpIECGenerators,
   ClpISecureRandom,
-  ClpIX9ECParameters,
-  ClpIX9ECParametersHolder,
+  ClpIX9ECAsn1Objects,
   ClpSecureRandom;
 
 type
@@ -104,8 +100,8 @@ end;
 
 function publicKeyToByteArray(const aPubKey: IECPublicKeyParameters): TBytes;
 begin
-  Result := TBigIntegers.BigIntegerToBytes(aPubKey.Q.AffineXCoord.ToBigInteger, 32)
-          + TBigIntegers.BigIntegerToBytes(aPubKey.Q.AffineYCoord.ToBigInteger, 32);
+  Result := TBigIntegerUtilities.AsUnsignedByteArray(32, aPubKey.Q.AffineXCoord.ToBigInteger)
+          + TBigIntegerUtilities.AsUnsignedByteArray(32, aPubKey.Q.AffineYCoord.ToBigInteger);
 end;
 
 function compressPublicKey(const aPubKey: IECPublicKeyParameters): TBytes;
@@ -114,7 +110,7 @@ begin
     Result := [2]
   else
     Result := [3];
-  Result := Result + TBigIntegers.BigIntegerToBytes(aPubKey.Q.AffineXCoord.ToBigInteger, 32);
+  Result := Result + TBigIntegerUtilities.AsUnsignedByteArray(32, aPubKey.Q.AffineXCoord.ToBigInteger);
 end;
 
 function generatePrivateKey(const algorithm: string; const aKeyType: TKeyType): IECPrivateKeyParameters;

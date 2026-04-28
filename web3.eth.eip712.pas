@@ -36,7 +36,7 @@ uses
   System.Variants,
   // CryptoLib4Pascal
   ClpBigInteger,
-  ClpBigIntegers,
+  ClpBigIntegerUtilities,
   // web3
   web3,
   web3.error,
@@ -541,7 +541,7 @@ begin
     if parsed.IsErr then
       Result := TResult<TBytes>.Err(parsed.Error)
     else
-      Result := TResult<TBytes>.Ok(TBigIntegers.BigIntegerToBytes(parsed.Value, 32));
+      Result := TResult<TBytes>.Ok(TBigIntegerUtilities.AsUnsignedByteArray(32, parsed.Value));
   {------------------------- error: unrecognized type -------------------------}
   end else
     Result := TResult<TBytes>.Err(Format('unrecognized type %s', [encType]));

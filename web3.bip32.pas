@@ -59,8 +59,9 @@ uses
   System.Classes,
   // CryptoLib4Pascal
   ClpBigInteger,
-  ClpBigIntegers,
+  ClpBigIntegerUtilities,
   ClpConverters,
+  ClpPack,
   ClpEncoders,
   // web3
   web3.crypto,
@@ -105,7 +106,7 @@ begin
   int1 := int1.Add(int2);
   int1 := int1.&Mod(curve.N);
 
-  Result := TBigIntegers.BigIntegerToBytes(int1, 32);
+  Result := TBigIntegerUtilities.AsUnsignedByteArray(32, int1);
 end;
 
 { TPublicKey }
@@ -162,7 +163,7 @@ end;
 // encodes the key in the standard Bitcoin base58 encoding
 function TPublicKey.ToString: string;
 begin
-  Result := TBase58.Encode(Self.Serialize);
+  Result := TBase58Encoder.Encode(Self.Serialize);
 end;
 
 type
@@ -197,7 +198,7 @@ begin
     privateWalletVersion,                                                  // version
     addPrivateKeys(Copy(intermediary, 0, 32), Self.keyData),               // key data
     Copy(intermediary, 32, 32),                                            // chain code
-    TConverters.ReadUInt32AsBytesBE(childIdx),                             // child number
+    TPack.UInt32_To_BE(childIdx),                             // child number
     Copy(web3.utils.hash160(publicKeyFromPrivateKey(Self.keyData)), 0, 4), // fingerprint
     Self.depth + 1                                                         // depth
   );
@@ -212,7 +213,7 @@ begin
   else
     Result := publicKeyFromPrivateKey(Self.keyData);
 
-  Result := Result + TConverters.ReadUInt32AsBytesBE(childIdx);
+  Result := Result + TPack.UInt32_To_BE(childIdx);
 
   Result := hmac_sha512(Result, Self.chainCode);
 end;
