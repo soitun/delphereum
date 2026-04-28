@@ -70,7 +70,7 @@ type
     // Returns the annual yield as a percentage with 4 decimals.
     class procedure APY(
       const client   : IWeb3;
-      const etherscan: IEtherscan;
+      const etherscan: TEtherscan;
       const reserve  : TReserve;
       const period   : TPeriod;
       const callback : TProc<Double, IError>); virtual; abstract;

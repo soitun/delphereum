@@ -60,7 +60,7 @@ type
       const reserve: TReserve): Boolean; override;
     class procedure APY(
       const client   : IWeb3;
-      const etherscan: IEtherscan;
+      const etherscan: TEtherscan;
       const reserve  : TReserve;
       const period   : TPeriod;
       const callback : TProc<Double, IError>); override;
@@ -102,14 +102,14 @@ type
 
 implementation
 
-procedure getAPY(const ousd: IOriginDollar; const etherscan: IEtherscan; const period: TPeriod; const callback: TProc<Double, IError>);
+procedure getAPY(const ousd: IOriginDollar; const etherscan: TEtherscan; const period: TPeriod; const callback: TProc<Double, IError>);
 begin
   ousd.RebasingCreditsPerToken(BLOCK_LATEST, procedure(curr: BigInteger; err: IError)
   begin
     if Assigned(err) then
       callback(0, err)
     else
-      etherscan.getBlockNumberByTimestamp(web3.Now - period.Seconds, procedure(bn: BigInteger; err: IError)
+      getBlockNumberByTimestamp(etherscan, web3.Now - period.Seconds, procedure(bn: BigInteger; err: IError)
       begin
         if Assigned(err) then
           callback(0, err)
@@ -182,7 +182,7 @@ end;
 
 class procedure TOrigin.APY(
   const client   : IWeb3;
-  const etherscan: IEtherscan;
+  const etherscan: TEtherscan;
   const reserve  : TReserve;
   const period   : TPeriod;
   const callback : TProc<Double, IError>);

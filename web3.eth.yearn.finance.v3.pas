@@ -49,7 +49,7 @@ type
       const reserve: TReserve): Boolean; override;
     class procedure APY(
       const client   : IWeb3;
-      const etherscan: IEtherscan;
+      const etherscan: TEtherscan;
       const reserve  : TReserve;
       const period   : TPeriod;
       const callback : TProc<Double, IError>); override;
@@ -119,7 +119,7 @@ end;
 
 class procedure TyEarnV3.APY(
   const client   : IWeb3;
-  const etherscan: IEtherscan;
+  const etherscan: TEtherscan;
   const reserve  : TReserve;
   const period   : TPeriod;
   const callback : TProc<Double, IError>);

@@ -60,7 +60,7 @@ type
   protected
     class procedure yAPY(
       const yToken   : IyToken;
-      const etherscan: IEtherscan;
+      const etherscan: TEtherscan;
       const period   : TPeriod;
       const callback : TProc<Double, IError>);
     class procedure yDeposit(
@@ -103,7 +103,7 @@ implementation
 
 class procedure TCustomYearn.yAPY(
   const yToken   : IyToken;
-  const etherscan: IEtherscan;
+  const etherscan: TEtherscan;
   const period   : TPeriod;
   const callback : TProc<Double, IError>);
 begin
@@ -112,7 +112,7 @@ begin
     if Assigned(err) then
       callback(0, err)
     else
-      etherscan.getBlockNumberByTimestamp(web3.Now - period.Seconds, procedure(bn: BigInteger; err: IError)
+      getBlockNumberByTimestamp(etherscan, web3.Now - period.Seconds, procedure(bn: BigInteger; err: IError)
       begin
         if Assigned(err) then
           callback(0, err)
