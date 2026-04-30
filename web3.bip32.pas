@@ -198,7 +198,7 @@ begin
     privateWalletVersion,                                                  // version
     addPrivateKeys(Copy(intermediary, 0, 32), Self.keyData),               // key data
     Copy(intermediary, 32, 32),                                            // chain code
-    TPack.UInt32_To_BE(childIdx),                             // child number
+    TPack.UInt32_To_BE(childIdx),                                          // child number
     Copy(web3.utils.hash160(publicKeyFromPrivateKey(Self.keyData)), 0, 4), // fingerprint
     Self.depth + 1                                                         // depth
   );

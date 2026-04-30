@@ -41,6 +41,7 @@ uses
   ClpECDsaSigner,
   ClpKeyGenerationParameters,
   ClpECGenerators,
+  ClpIAsn1Objects,
   ClpIAsymmetricCipherKeyPair,
   ClpIECCommon,
   ClpIECParameters,
