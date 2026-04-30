@@ -37,7 +37,7 @@ uses
   // Velthuis' BigNumbers
   Velthuis.BigIntegers,
   // CryptoLib4Pascal
-  ClpIECPrivateKeyParameters,
+  ClpIECParameters,
   // web3
   web3;
 
